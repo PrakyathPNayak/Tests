@@ -86,7 +86,7 @@ class MinecraftLevelEditor:
         row = 0
         self.setting_vars = {}
         
-        # Common settings to be displayed, I may need to change this to a more dynamic way of getting the settings
+        # Common settings to be displayed, more can be added if needed by the user
         # but for now, this is a good start
         common_settings = [
             ("Game Mode", "Data.GameType", "int"),
@@ -94,7 +94,7 @@ class MinecraftLevelEditor:
             ("Difficulty", "Data.Difficulty", "int"),
             ("Hardcore Mode", "Data.hardcore", "bool"),
             ("World Name", "Data.LevelName", "str"),
-            ("Seed", "Data.WorldGenSettings.seed", "long"),
+            ("Seed", "Data.WorldGenSettings.seed", "long"), # may differ with minecraft versions. The old dat files have the seed in Data.Randomseed
             ("Time of Day", "Data.DayTime", "long"),
             ("Weather", "Data.raining", "bool"),
             ("Thunder", "Data.thundering", "bool"),
@@ -146,7 +146,7 @@ class MinecraftLevelEditor:
     def browse_file(self):
         initial_dir = None
         # Check for Minecraft directory based on OS, TODO: test on Mac and windows
-
+        # TODO: maybe take command line arguments for special cases
         # TODO: Let the user choose a default directory for the level.dat file in the settings
         if os.name == 'nt':  # Windows 
             mc_dir = os.path.join(os.getenv('APPDATA'), '.minecraft', 'saves')
@@ -233,7 +233,6 @@ class MinecraftLevelEditor:
             else:
                 return False
         
-        # Set the value on the parent
         if isinstance(current, dict) and parts[-1] in current:
             # Apparently, the type of the value is stored in the last element of the parts
             target_type = type(current[parts[-1]])
